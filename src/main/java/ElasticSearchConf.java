@@ -45,13 +45,14 @@ public class ElasticSearchConf{
 			System.out.println(responce);
 	}
 	public static void deleteES(){
-		 BulkItemResponse responce = DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
+		  SearchResponse responce = DeleteByQueryAction.INSTANCE.newRequestBuilder(client)
 				.filter(QueryBuilders.boolQuery()
 						.must(QueryBuilders.termQuery("site_name_not_analyzed", "City of Kissimmee"))
 								.must(QueryBuilders.termQuery("bidtype_not_analyzed","Bid Notification")))
 								.source()
 								.get();
 		 System.out.println(responce);
+		 System.out.println("value is successfully delete");
 		 
 				
 	}
@@ -59,6 +60,7 @@ public class ElasticSearchConf{
 		ElasticSearchConf esconf = new ElasticSearchConf();
 		esconf.initializeES();
 		esconf.searchES();
+		esconf.deleteES();
 	}
 
 }
