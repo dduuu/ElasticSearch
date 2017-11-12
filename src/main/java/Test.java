@@ -109,16 +109,17 @@ public class Test{
  	   String output = responce.toString();
  	   System.out.println(output);
  	
- 	 BulkRequestBuilder builder = getBulkBuilder();
+ 	 BulkRequestBuilder builder = client.prepareBulk();
+ 			 //getBulkBuilder();
      for (SearchHit hit :responce.getHits().getHits()){
     	 System.out.println("hit data");
          Map<String, Object> source = hit.getSource();
-         source.put("site_name", changevalue);
+         source.put("site_name_not_analyzed", changevalue);
          if (!indexname.equals("site_name_not_analyzed")) {
              source.put("site_name", changevalue);
          }
 
-         builder.add(getIndexBuilder()
+         builder.add(client.prepareIndex("opps","opps")
                  .setSource(source)
                  .setId(hit.getId())
                  .request());
@@ -177,7 +178,7 @@ public static void deleteES(){
 public static void main(String[] args) {
   Test esconf = new Test();
   esconf.initializeES();
- // esconf.searchES("site_name_not_analyzed", "City of North Port");
+ esconf.searchES("site_name_not_analyzed", "City of North Port");
   //esconf.deletedata("site_name_not_analyzed", "City of Kissimmee");
   esconf.update("site_name_not_analyzed", "City of North Port","North Port");
   
